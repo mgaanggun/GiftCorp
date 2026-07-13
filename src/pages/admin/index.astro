@@ -84,23 +84,23 @@ try {
         <table class="table w-full text-gray-700 border-separate border-spacing-y-2">
           <thead>
             <tr class="text-gray-500 uppercase text-xs tracking-wider bg-transparent">
-              <th class="px-6 py-4 font-semibold">No</th>
-              <th class="px-6 py-4 font-semibold">Judul</th>
-              <th class="px-6 py-4 font-semibold">Slug</th>
-              <th class="px-6 py-4 font-semibold">Tanggal Dibuat</th>
-              <th class="px-6 py-4 font-semibold text-right">Aksi</th>
+              <th class="px-2 sm:px-6 py-4 font-semibold hidden sm:table-cell">No</th>
+              <th class="px-2 sm:px-6 py-4 font-semibold">Judul</th>
+              <th class="px-2 sm:px-6 py-4 font-semibold hidden md:table-cell">Slug</th>
+              <th class="px-2 sm:px-6 py-4 font-semibold hidden lg:table-cell">Tanggal Dibuat</th>
+              <th class="px-2 sm:px-6 py-4 font-semibold text-right">Aksi</th>
             </tr>
           </thead>
           <tbody>
             {posts.length > 0 ? (
               posts.map((post, index) => (
                 <tr class="bg-white hover:bg-main-50/30 hover:shadow-md transition-all group rounded-2xl">
-                  <td class="px-6 py-4 text-gray-500 font-medium rounded-l-2xl">{index + 1}</td>
-                  <td class="px-6 py-4 font-bold text-gray-800 group-hover:text-main-200 transition-colors">{post.title}</td>
-                  <td class="px-6 py-4"><span class="bg-gray-100/80 text-gray-600 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200/50 inline-block max-w-[200px] truncate" title={post.slug}>{post.slug}</span></td>
-                  <td class="px-6 py-4 text-gray-500 text-sm font-medium">{new Date(post.created_at).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })}</td>
-                  <td class="px-6 py-4 rounded-r-2xl">
-                    <div class="flex items-center justify-end space-x-2 opacity-100 lg:opacity-70 group-hover:opacity-100 transition-opacity">
+                  <td class="px-2 sm:px-6 py-4 text-gray-500 font-medium rounded-l-2xl hidden sm:table-cell">{index + 1}</td>
+                  <td class="px-2 sm:px-6 py-4 font-bold text-gray-800 group-hover:text-main-200 transition-colors whitespace-normal break-words">{post.title}</td>
+                  <td class="px-2 sm:px-6 py-4 hidden md:table-cell"><span class="bg-gray-100/80 text-gray-600 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200/50 inline-block max-w-[200px] truncate" title={post.slug}>{post.slug}</span></td>
+                  <td class="px-2 sm:px-6 py-4 text-gray-500 text-sm font-medium hidden lg:table-cell">{new Date(post.created_at).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })}</td>
+                  <td class="px-2 sm:px-6 py-4 rounded-r-2xl">
+                    <div class="flex items-center justify-end space-x-1 sm:space-x-2 opacity-100 lg:opacity-70 group-hover:opacity-100 transition-opacity">
                       <a href={`/blog/${post.slug}`} target="_blank" class="btn btn-sm btn-circle bg-gray-50 hover:bg-gray-100 border-none text-gray-600 tooltip" data-tip="Lihat Post">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                       </a>

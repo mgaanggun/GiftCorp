@@ -45,7 +45,7 @@ try {
     <div class="relative z-10">
       {
         services.map((service, index) => (
-          <section class={`py-12 lg:py-16 relative ${index % 2 !== 0 ? 'bg-white' : 'bg-transparent'}`}>
+          <section class="py-12 lg:py-16 relative bg-transparent">
             <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8 lg:gap-12">
               <div class={`w-full md:w-1/2 ${index % 2 !== 0 ? 'md:order-last' : ''}`}>
                 <div class="rounded-[1.5rem] overflow-hidden shadow-xl relative group">
@@ -67,8 +67,8 @@ try {
                   </span>
                   <div class="h-px flex-1 bg-gradient-to-r from-main-200/30 to-transparent"></div>
                 </div>
-                <h2 class={`text-3xl lg:text-4xl font-extrabold mb-4 leading-tight ${index % 2 !== 0 ? 'text-gray-900' : 'text-base-content'}`}>{service.title}</h2>
-                <p class={`text-lg leading-relaxed mb-8 ${index % 2 !== 0 ? 'text-gray-600' : 'text-base-content/80'}`}>
+                <h2 class="text-3xl lg:text-4xl font-extrabold mb-4 leading-tight text-base-content">{service.title}</h2>
+                <p class="text-lg leading-relaxed mb-8 text-base-content/80">
                   {service.description}
                 </p>
                 <a href={`/services/${service.slug}`} class="group inline-flex items-center gap-2 px-6 py-3 bg-main-200 hover:bg-main-100 text-white rounded-xl font-semibold shadow-md hover:-translate-y-0.5 transition-all duration-300">

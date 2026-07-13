@@ -1,0 +1,52 @@
+---
+import { Sun, Moon } from '@lucide/astro';
+
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id = "theme-toggle", class: className = "btn btn-ghost btn-circle" } = Astro.props;
+---
+
+<button id={id} class={className} aria-label="Toggle Theme" type="button">
+  <!-- Sun icon shows when dark mode is ON (to switch back to light) -->
+  <Sun class="w-5 h-5 hidden dark:block" />
+  <!-- Moon icon shows when dark mode is OFF (to switch to dark) -->
+  <Moon class="w-5 h-5 block dark:hidden" />
+</button>
+
+<script>
+  // Script ini akan dibundel oleh Astro dan dijalankan sekali
+  function setupThemeToggles() {
+    const handleToggleClick = () => {
+      const element = document.documentElement;
+      const isDark = element.getAttribute("data-theme") === "dark" || element.classList.contains("dark");
+      const newTheme = isDark ? 'light' : 'dark';
+      
+      element.setAttribute("data-theme", newTheme);
+      
+      if (newTheme === 'dark') {
+        element.classList.add('dark');
+      } else {
+        element.classList.remove('dark');
+      }
+      
+      localStorage.setItem("theme", newTheme);
+    };
+
+    // Tambahkan event listener ke semua tombol toggle theme di halaman ini
+    const toggleBtns = document.querySelectorAll('button[aria-label="Toggle Theme"]');
+    toggleBtns.forEach(btn => {
+      // Remove existing listener to prevent duplicates on view transitions
+      btn.removeEventListener("click", handleToggleClick);
+      btn.addEventListener("click", handleToggleClick);
+    });
+  }
+
+  // Run on initial load
+  setupThemeToggles();
+  
+  // Run on Astro view transitions (jika digunakan)
+  document.addEventListener('astro:page-load', setupThemeToggles);
+</script>

@@ -1,6 +1,7 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import { LayoutDashboard, Newspaper, Briefcase, Box, Mail, LogOut, Menu } from "@lucide/astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 type Props = {
   title: string;
@@ -22,19 +23,37 @@ const menuItems = [
 ];
 ---
 
-<html lang="en" data-theme="light">
+<html lang="en">
   <head>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    </script>
     <BaseHead title={title} description={description} image={image} />
   </head>
 
-  <body class="bg-gray-50 text-gray-800 h-screen overflow-hidden">
+  <body class="bg-gray-50 dark:bg-base-200 text-gray-800 dark:text-base-content h-screen overflow-hidden transition-colors">
     <div class="drawer lg:drawer-open h-full">
       <input id="admin-drawer" type="checkbox" class="drawer-toggle" />
       
       <!-- Main Content -->
       <div class="drawer-content flex flex-col h-full overflow-y-auto overflow-x-hidden">
         <!-- Topbar for mobile -->
-        <div class="w-full navbar bg-white border-b border-gray-200 lg:hidden sticky top-0 z-50">
+        <div class="w-full navbar bg-white dark:bg-base-100 border-b border-gray-200 dark:border-base-300 lg:hidden sticky top-0 z-50">
           <div class="flex-none">
             <label for="admin-drawer" aria-label="open sidebar" class="btn btn-square btn-ghost text-main-200">
               <Menu size={24} />
@@ -43,10 +62,13 @@ const menuItems = [
           <div class="flex-1 px-2 mx-2 font-bold text-main-200 text-xl">
             GiftCorp Admin
           </div>
+          <div class="flex-none">
+            <ThemeToggle id="theme-toggle-mobile" class="btn btn-ghost btn-circle text-gray-600 dark:text-gray-300" />
+          </div>
         </div>
         
         <!-- Slot Content -->
-        <main class="flex-1 p-4 lg:p-8 bg-[#F8FDFF]">
+        <main class="flex-1 p-4 lg:p-8 bg-[#F8FDFF] dark:bg-base-200 transition-colors">
           <slot />
         </main>
       </div> 
@@ -54,16 +76,17 @@ const menuItems = [
       <!-- Sidebar -->
       <div class="drawer-side z-50">
         <label for="admin-drawer" aria-label="close sidebar" class="drawer-overlay"></label> 
-        <div class="menu p-4 w-72 min-h-full bg-white border-r border-gray-200 text-base-content flex flex-col shadow-xl lg:shadow-none">
+        <div class="p-4 w-72 min-h-full bg-white dark:bg-base-100 border-r border-gray-200 dark:border-base-300 text-base-content flex flex-col shadow-xl lg:shadow-none transition-colors">
           <!-- Brand -->
           <div class="flex items-center gap-3 px-4 py-6 mb-4 border-b border-gray-100">
             <div class="w-10 h-10 bg-main-200 text-white flex items-center justify-center rounded-xl shadow-md font-bold text-xl">
               G
             </div>
-            <div>
-              <h1 class="text-xl font-bold text-gray-800 tracking-tight">GiftCorp</h1>
+            <div class="flex-1">
+              <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">GiftCorp</h1>
               <p class="text-xs text-gray-500 font-medium uppercase tracking-wider">Admin Panel</p>
             </div>
+            <ThemeToggle id="theme-toggle-admin" class="btn btn-ghost btn-circle btn-sm text-gray-500 dark:text-gray-400" />
           </div>
           
           <!-- Navigation -->
@@ -78,8 +101,8 @@ const menuItems = [
                     href={item.path} 
                     class={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${
                       isActive 
-                        ? "bg-main-50 text-main-200 shadow-sm" 
-                        : "text-gray-600 hover:bg-gray-50 hover:text-main-200"
+                        ? "bg-main-50 dark:bg-main-200/20 text-main-200 shadow-sm" 
+                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-base-200 hover:text-main-200 dark:hover:text-main-100"
                     }`}
                   >
                     <Icon size={20} class={isActive ? "text-main-200" : "text-gray-400"} />
@@ -91,16 +114,16 @@ const menuItems = [
           </ul>
           
           <!-- Bottom actions -->
-          <div class="border-t border-gray-100 pt-4 pb-2">
+          <div class="border-t border-gray-100 dark:border-base-300 pt-4 pb-2">
             <ul class="space-y-2">
               <li>
-                <a href="/" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-main-200 transition-all font-medium">
+                <a href="/" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-base-200 hover:text-main-200 dark:hover:text-main-100 transition-all font-medium">
                   <LayoutDashboard size={20} class="text-gray-400" />
                   Lihat Website
                 </a>
               </li>
               <li>
-                <a href="/" class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-all font-medium">
+                <a href="/" class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all font-medium">
                   <LogOut size={20} />
                   Keluar
                 </a>
